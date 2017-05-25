@@ -3,14 +3,14 @@
 ## This function returns an cached matrix object that can be used to calculate cacheSolve
 
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
+  minv <- NULL
   set <- function(y) {
     x <<- y
-    m <<- NULL
+    minv <<- NULL
   }
   get <- function() x
-  setinv <- function(inv) m <<-inv
-  getinv <- function() m
+  setinv <- function(inv) minv <<-inv
+  getinv <- function() minv
   list(set = set, get = get,
        setinv = setinv,
        getinv = getinv)
@@ -23,13 +23,13 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  m <- x$getinv()
-  if(!is.null(m)) {
+  mtx <- x$getinv()
+  if(!is.null(mtx)) {
     message("getting cached data")
-    return(m)
+    return(mtx)
   }
   data <- x$get()
-  m <- solve(data)
-  x$setinv(m)
-  m
+  mtx <- solve(data)
+  x$setinv(mtx)
+  mtx
 }
